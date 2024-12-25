@@ -1,0 +1,16 @@
+Create a C++ class that is a fortran array with the class methods being:
+- Constructor with args specifying dimensions: allocate memory
+- Add element with args being the element position + new element: assign the element to the array position
+- Delete element with args being element position: remove the element from the array position
+- Finalizer: deallocate memory
+- Print all elements
+
+Implementation:
+- All arrays are nodes in a singly linked list with pos being the position in it. This means that any operation from C++ will at least be O(n) since we need to retrieve the array from the list.
+- Each array operation defined in Fortran will have its own pointers so that array fetching is done once for each array used in the operation.
+- Git the project once we have all the 1-2D basics running (specify that function definitions need to be in fortran)
+- Have a few sample methods such as scalar multiplication and addition.
+- Create a library out of the project
+
+- Later, implement a global pointer that points to last used array node to make array fetching O(1) when using the same array.
+- After that, try to increase global pointer count to 5.
