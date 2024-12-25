@@ -33,5 +33,5 @@ class Farray1Dd : public Farray{
 
 extern "C" {	//might put in private section of Farray1D
 	// Fortran side of Farray1D methods
-	void cdf1(int* size, int* pos);		//1D farray creation
+	void cdf1(int* size, int* pos);		//1D double farray creation
 }
