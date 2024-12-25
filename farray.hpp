@@ -21,8 +21,6 @@ class Farray1Dd : public Farray{
 	private:
 		int size;
 
-		bool remove(int rank);			//remove element at rank
-		bool empty(int rank);			//check if array is empty at rank
 	public:
 		Farray1Dd(int size);			//constructor with size
 
