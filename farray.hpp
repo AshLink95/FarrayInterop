@@ -4,12 +4,11 @@ class Farray{
 
 		bool remove(int rank);			//remove element at rank
 		bool empty(int rank);			//check if array is empty at rank
-		bool pullnput();				//pull out the DB and implement
 
 	public:
-		Farray();					//default constructor
-		Farray(const Farray &far);	//will use pos
-		//~Farray();				//finalizer
+		Farray();						//default constructor
+		Farray(const Farray &far);		//will use pos
+		//~Farray();					//finalizer
 
 		bool resize(int size);			//dynamic array resize 
 		bool reshape(int size);			//Fortran reshape
