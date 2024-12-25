@@ -2,9 +2,6 @@ class Farray{
 	protected:
 		int pos;						//global linked list position
 
-		bool remove(int rank);			//remove element at rank
-		bool empty(int rank);			//check if array is empty at rank
-
 	public:
 		Farray();						//default constructor
 		Farray(const Farray &far);		//will use pos
@@ -24,6 +21,8 @@ class Farray1Dd : public Farray{
 	private:
 		int size;
 
+		bool remove(int rank);			//remove element at rank
+		bool empty(int rank);			//check if array is empty at rank
 	public:
 		Farray1Dd(int size);			//constructor with size
 
