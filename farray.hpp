@@ -16,20 +16,21 @@ extern "C" {	//might put in private section of Farray
 	// Fortran side of Farray methods
 }
 
-//either implement templates or children of children for datps
-class Farray1Dd : public Farray{
+template <typename datp> class Farray1D : public Farray{
 	private:
 		int size;
 
 	public:
-		Farray1Dd(int size);			//constructor with size
+		explicit Farray1D<datp>(int size);		//constructor with size
 
-		bool set(int rank, double member);	//change element at rank
-		double get(int rank);			//return element at rank
+		bool set(int rank, datp member);	//change element at rank
+		datp get(int rank);				//return element at rank
 		bool erase(int rank);			//remove element at rank and fill gap
 };
 
-extern "C" {	//might put in private section of Farray1D
-	// Fortran side of Farray1D methods
+extern "C" {
 	void cdf1(int* size, int* pos);		//1D double farray creation
+	void cif1(int* size, int* pos);		//1D int farray creation
+	void cbf1(int* size, int* pos);		//1D bool farray creation
+	void ccf1(int* size, int* pos);		//1D char farray creation
 }

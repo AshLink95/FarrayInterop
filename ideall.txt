@@ -14,3 +14,5 @@ Implementation:
 
 - Later, implement a global pointer that points to last used array node to make array fetching O(1) when using the same array.
 - After that, try to increase global pointer count to 5.
+- Implement a dictionary using 2 slla's
+- Implament a database
