@@ -1,10 +1,9 @@
 #include "farray.hpp"
 #include <typeinfo>
-#include <iostream>
 
 // definitions will be here
 Farray::Farray(){}
-
+Farray::Farray(const Farray &far){}
 
 template <typename datp> Farray1D<datp>::Farray1D(int size){
 	int pos;
@@ -25,6 +24,8 @@ template <typename datp> Farray1D<datp>::Farray1D(int size){
 	this->size = size;
 	this->pos = pos;
 }
+
+// 1D copy constructor overload
 
 // Instantiation
 template class Farray1D<double>;

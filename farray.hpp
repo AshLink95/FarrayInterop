@@ -1,12 +1,11 @@
 class Farray{
 	protected:
 		int pos;						//global linked list position
-
-	public:
 		Farray();						//default constructor
 		Farray(const Farray &far);		//will use pos
 		//~Farray();					//finalizer
 
+	public:
 		bool resize(int size);			//dynamic array resize 
 		bool reshape(int size);			//Fortran reshape
 		// other methods
