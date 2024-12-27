@@ -52,4 +52,36 @@ module farrayimp1D
 
                return
           end subroutine create_char_farray1D
+
+          function set_double_farray1D(rank, member, pos) result(done) bind(C, name="sdf1")
+               implicit none
+               integer(C_int), intent(in)::rank, pos
+               real(C_double), intent(in)::member
+               logical::done
+               type(rnode1D)::node
+
+write(*,*) "fine till here"
+               node%asll_node = gslla%get_node(pos) !ERROR here
+write(*,*) "fine till here"
+               node%array(rank) = member
+               if (node%array(rank) == member) then
+                    done = .true.
+               else
+                    done = .false.
+               endif
+
+               return
+          end function set_double_farray1D
+
+          function get_double_farray1D(rank, pos) result(member) bind(C, name="gdf1")
+               implicit none
+               integer(C_int), intent(in)::rank, pos
+               real(C_double)::member
+               type(rnode1D)::node
+
+               node%asll_node = gslla%get_node(pos)
+               member = node%array(rank)
+
+               return
+          end function get_double_farray1D
 end module farrayimp1D

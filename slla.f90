@@ -100,13 +100,13 @@ module singly_linked_list_of_arrays
 
           function get_node(this,rank) result(node)
                implicit none
-               
+
                class(asll)::this
                integer, intent(in)::rank
                type(asll_node), pointer::node
                type(asll_node), pointer::node_ptr => null()
                integer::temp, last
-               
+
                last = 1+this%tail%rank
                if ((.not. associated(this%tail)) .or. rank<1) then
                     node => null()
