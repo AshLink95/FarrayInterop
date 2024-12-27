@@ -1,3 +1,5 @@
+!TODO: redo the whole slla
+
 module singly_linked_list_of_arrays
      use iso_C_binding
      implicit none
