@@ -47,7 +47,7 @@ module farrayimp1D
                type(cnode1D)::node
 
                allocate(node%array(size))
-               call add_node(gslla, node%asll_node)
+               call gslla%add_node(node%asll_node)
                pos = node%rank
 
                return

@@ -2,8 +2,8 @@ module singly_linked_list_of_arrays
      use iso_C_binding
      implicit none
      type asll
-          type(asll_node), pointer::head => null()
-          type(asll_node), pointer::tail => null()
+          class(asll_node), pointer::head => null()
+          class(asll_node), pointer::tail => null()
           integer::size
      contains
           procedure, pass::add_node
@@ -12,10 +12,10 @@ module singly_linked_list_of_arrays
      end type
 
      type asll_node
-          type(asll_node), pointer::next_node => null()
+          class(asll_node), pointer::next_node => null()
           integer::rank
      contains
-          final::delete
+          final::delete  !TODO: create cleanup for all children
      end type
 
      !1D nodes
@@ -40,7 +40,7 @@ module singly_linked_list_of_arrays
                implicit none
 
                class(asll)::this
-               type(asll_node), target::node
+               class(asll_node), target::node
                integer::temp
 
                if (.not. associated(this%head)) then
@@ -62,14 +62,14 @@ module singly_linked_list_of_arrays
                
                class(asll)::this
                integer, intent(in)::rank
-               type(asll_node), pointer::node, temp
+               class(asll_node), pointer::node, temp
                
                if (rank==1) then
                     temp => this%head
                     this%head => this%head%next_node
                     call delete(temp)
                else
-                    node = this%get_node(rank)
+                    node => this%get_node(rank)
                     if (.not. associated(node)) then
                          return
                     else
@@ -79,7 +79,7 @@ module singly_linked_list_of_arrays
                               node%next_node => null()
                               this%tail => node
                          else 
-                              node%next_node = node%next_node%next_node
+                              node%next_node => node%next_node%next_node
                          endif
                          call delete(temp)
                     endif
@@ -91,7 +91,7 @@ module singly_linked_list_of_arrays
                endif
                do while (.not. associated(temp, this%tail))
                     temp%rank = temp%rank - 1
-                    temp = temp%next_node
+                    temp => temp%next_node
                enddo
                this%size = this%size + 1
 
@@ -103,32 +103,38 @@ module singly_linked_list_of_arrays
 
                class(asll)::this
                integer, intent(in)::rank
-               type(asll_node), pointer::node
-               type(asll_node), pointer::node_ptr => null()
+               class(asll_node), pointer::node
+               class(asll_node), pointer::node_ptr => null()
                integer::temp, last
 
-               last = 1+this%tail%rank
+               last = 1+this%size
+write(*,*) last
+write(*,*) rank
                if ((.not. associated(this%tail)) .or. rank<1) then
                     node => null()
                else
                     node_ptr=>this%head
                     temp = 0
                     do while (temp /= rank)
+write(*,*) "hedhi ka3ba"
+write(*,*) temp
                          if (temp == last) then
                               node => null()
+write(*,*) "hedhi e5ber ka3ba"
                               return
                          endif
-                         node_ptr = node_ptr%next_node
+                         node_ptr => node_ptr%next_node
                          temp = node_ptr%rank
                     enddo
                endif
 
-               node = node_ptr
+               node => node_ptr
 
                return
           end function get_node
 
           subroutine delete(this)
                type(asll_node)::this
+               nullify(this%next_node)
           end subroutine delete
 end module singly_linked_list_of_arrays
