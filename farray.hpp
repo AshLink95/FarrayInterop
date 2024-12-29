@@ -17,20 +17,21 @@ template <typename datp> class Farray1D : public Farray{
 		bool set(int rank, datp member);		//change element at rank
 		datp get(int rank);					//return element at rank
 		bool resize(int size);				//dynamic array resize 
-		bool reshape(int size);				//Fortran reshape
 		//method to set first index
 };
+
+//separate reshape functions (takes 1D returns nD)
 
 extern "C" {	//Fortran 1D functions
 	//1D farray creation
 	void cdf1(int* size, int* pos);
-	void cif1(int* size, int* pos);
-	void cbf1(int* size, int* pos);
-	void ccf1(int* size, int* pos);
+	// void cif1(int* size, int* pos);
+	// void cbf1(int* size, int* pos);
+	// void ccf1(int* size, int* pos);
 
 	//1D farray element setters
-	bool sdf1(int* rank, double* member, int* pos);
+	// bool sdf1(int* rank, double* member, int* pos);
 
 	//1D farray element getters
-	double gdf1(int* rank, int* pos);
+	// double gdf1(int* rank, int* pos);
 }
