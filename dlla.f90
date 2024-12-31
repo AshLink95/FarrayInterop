@@ -36,16 +36,17 @@ module dlla
      contains
           subroutine asc(this, node)
                implicit none
-               class(dlla_node), intent(inout), target::this
+               class(dlla_node), target, intent(inout)::this
                class(dlla_node), pointer, intent(in)::node
 
+               !run through nxt nodes starting from this
                this%nxt => node
                node%prv => this
                node%pos = this%pos + 1
           end subroutine
 
           function gtpos(this, pos) result(node)
-               class(dlla_node), intent(inout), target::this
+               class(dlla_node), target, intent(inout)::this
                integer, intent(in)::pos
                class(dlla_node), pointer::node
                integer::temp

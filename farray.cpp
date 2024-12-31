@@ -68,6 +68,6 @@ template <typename datp> Farray1D<datp>::Farray1D(int size){
 
 // Instantiation
 template class Farray1D<double>;
-//template class Farray1D<int>;
+template class Farray1D<int>;
 //template class Farray1D<bool>;
 //template class Farray1D<char>;

@@ -25,7 +25,7 @@ template <typename datp> class Farray1D : public Farray{
 extern "C" {	//Fortran 1D functions
 	//1D farray creation
 	void cdf1(int* size, int* pos);
-	// void cif1(int* size, int* pos);
+	void cif1(int* size, int* pos);
 	// void cbf1(int* size, int* pos);
 	// void ccf1(int* size, int* pos);
 
