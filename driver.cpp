@@ -6,6 +6,9 @@ int main(){
 	// creation
 	int i{4};
 	Farray1D<double> fur(i);
+	std::cout << "1 down" << std::endl;
+	Farray1D<double> fuur(i);
+	std::cout << "2 down" << std::endl;
 	//Farray1D<int> fir(i);
 	//Farray1D<bool> fer(i);
 	//Farray1D<char> far(i);

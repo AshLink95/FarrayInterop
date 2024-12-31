@@ -36,13 +36,23 @@ module dlla
      contains
           subroutine asc(this, node)
                implicit none
-               class(dlla_node), target, intent(inout)::this
-               class(dlla_node), pointer, intent(in)::node
+               class(dlla_node), target, intent(inout)::this, node
+               class(dlla_node), pointer::ptr => null()
 
-               !run through nxt nodes starting from this
-               this%nxt => node
-               node%prv => this
-               node%pos = this%pos + 1
+               ptr => this%nxt
+               if (.not. ASSOCIATED(ptr)) then
+                    this%nxt => node
+                    node%prv => this
+                    node%pos = this%pos + 1
+               else
+                    do while (ASSOCIATED(ptr%nxt))
+                         ptr => ptr%nxt
+                    enddo
+WRITE(*,*) ptr%pos  !ERROR (ptr isn't a dlla_node ptr)
+                    ptr%nxt => node
+                    node%prv => ptr
+                    node%pos = ptr%pos + 1
+               endif
           end subroutine
 
           function gtpos(this, pos) result(node)
