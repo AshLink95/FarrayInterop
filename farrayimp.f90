@@ -3,19 +3,45 @@ module farrayimp1D
      use dlla
      implicit none
 
-     type(lnode1D)::head
+     type(rnode1D), pointer::ptr
+     type(inode1D), pointer::pti
+     type(lnode1D), pointer::ptl
+     type(cnode1D), pointer::ptc
      integer::totnod = 0
      contains
-          !functions (create farray, access farray, delete farray)
           subroutine cdf1(size, pos) bind(C)
                implicit none
                integer(c_int), intent(in)::size
                integer(c_int), intent(out)::pos
-               class(rnode1d), POINTER::nn
 
-               call asc(head,nn)
-               allocate(nn%array(size))
+               pos = rasc1(ptr, size)
                totnod = totnod + 1
-               pos = nn%pos
+          end subroutine
+
+          subroutine cif1(size, pos) bind(C)
+               implicit none
+               integer(c_int), intent(in)::size
+               integer(c_int), intent(out)::pos
+
+               pos = iasc1(pti, size)
+               totnod = totnod + 1
+          end subroutine
+
+          subroutine cbf1(size, pos) bind(C)
+               implicit none
+               integer(c_int), intent(in)::size
+               integer(c_int), intent(out)::pos
+
+               pos = lasc1(ptl, size)
+               totnod = totnod + 1
+          end subroutine
+
+          subroutine ccf1(size, pos) bind(C)
+               implicit none
+               integer(c_int), intent(in)::size
+               integer(c_int), intent(out)::pos
+
+               pos = casc1(ptc, size)
+               totnod = totnod + 1
           end subroutine
 end module farrayimp1D

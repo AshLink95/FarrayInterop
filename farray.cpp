@@ -15,11 +15,11 @@ template <typename datp> Farray1D<datp>::Farray1D(int size){
 	if (dp == typeid(double)) {
 		cdf1(&size, &pos); 
 	} else if (dp == typeid(int)) {
-		//cif1(&size, &pos); 
+		cif1(&size, &pos); 
 	} else if (dp == typeid(bool)) {
-		//cbf1(&size, &pos); 
+		cbf1(&size, &pos); 
 	} else if (dp == typeid(char)) {
-		//ccf1(&size, &pos); 
+		ccf1(&size, &pos); 
 	} else {
 		//TODO: display some error msg
 	}
@@ -69,5 +69,5 @@ template <typename datp> Farray1D<datp>::Farray1D(int size){
 // Instantiation
 template class Farray1D<double>;
 template class Farray1D<int>;
-//template class Farray1D<bool>;
-//template class Farray1D<char>;
+template class Farray1D<bool>;
+template class Farray1D<char>;

@@ -5,7 +5,7 @@ module dlla
           class(dlla_node), pointer::nxt => null(), prv => null()
           integer::pos = 0
      contains
-          procedure, pass::asc, gtpos
+          procedure, pass::gtpos
      end type
 
      !1D nodes
@@ -34,28 +34,8 @@ module dlla
      end type
 
      contains
-          subroutine asc(this, node)
-               implicit none
-               class(dlla_node), target, intent(inout)::this, node
-               class(dlla_node), pointer::ptr => null()
-
-               ptr => this%nxt
-               if (.not. ASSOCIATED(ptr)) then
-                    this%nxt => node
-                    node%prv => this
-                    node%pos = this%pos + 1
-               else
-                    do while (ASSOCIATED(ptr%nxt))
-                         ptr => ptr%nxt
-                    enddo
-WRITE(*,*) ptr%pos  !ERROR (ptr isn't a dlla_node ptr)
-                    ptr%nxt => node
-                    node%prv => ptr
-                    node%pos = ptr%pos + 1
-               endif
-          end subroutine
-
           function gtpos(this, pos) result(node)
+               implicit none
                class(dlla_node), target, intent(inout)::this
                integer, intent(in)::pos
                class(dlla_node), pointer::node
@@ -72,8 +52,94 @@ WRITE(*,*) ptr%pos  !ERROR (ptr isn't a dlla_node ptr)
                enddo
           end function
 
+          !associators
+          function rasc1(pt, size) result(pos)
+               implicit none
+               type(rnode1D), pointer, intent(inout)::pt
+               integer(c_int), intent(in)::size
+               integer(c_int)::pos
+               type(rnode1D), pointer::nn
+
+               ALLOCATE(nn)
+               ALLOCATE(nn%array(size))
+               if (.not. ASSOCIATED(pt)) then
+                    pt => nn
+                    nn%pos = 1
+               else
+                    pt%nxt => nn
+                    nn%prv => pt
+                    nn%pos = pt%pos + 1
+                    pt => nn
+               endif
+               pos = nn%pos
+          end function
+
+          function iasc1(pt, size) result(pos)
+               implicit none
+               type(inode1D), pointer, intent(inout)::pt
+               integer(c_int), intent(in)::size
+               integer(c_int)::pos
+               type(inode1D), pointer::nn
+
+               ALLOCATE(nn)
+               ALLOCATE(nn%array(size))
+               if (.not. ASSOCIATED(pt)) then
+                    pt => nn
+                    nn%pos = 1
+               else
+                    pt%nxt => nn
+                    nn%prv => pt
+                    nn%pos = pt%pos + 1
+                    pt => nn
+               endif
+               pos = nn%pos
+          end function
+
+          function lasc1(pt, size) result(pos)
+               implicit none
+               type(lnode1D), pointer, intent(inout)::pt
+               integer(c_int), intent(in)::size
+               integer(c_int)::pos
+               type(lnode1D), pointer::nn
+
+               ALLOCATE(nn)
+               ALLOCATE(nn%array(size))
+               if (.not. ASSOCIATED(pt)) then
+                    pt => nn
+                    nn%pos = 1
+               else
+                    pt%nxt => nn
+                    nn%prv => pt
+                    nn%pos = pt%pos + 1
+                    pt => nn
+               endif
+               pos = nn%pos
+          end function
+
+          function casc1(pt, size) result(pos)
+               implicit none
+               type(cnode1D), pointer, intent(inout)::pt
+               integer(c_int), intent(in)::size
+               integer(c_int)::pos
+               type(cnode1D), pointer::nn
+
+               ALLOCATE(nn)
+               ALLOCATE(nn%array(size))
+               if (.not. ASSOCIATED(pt)) then
+                    pt => nn
+                    nn%pos = 1
+               else
+                    pt%nxt => nn
+                    nn%prv => pt
+                    nn%pos = pt%pos + 1
+                    pt => nn
+               endif
+               pos = nn%pos
+          end function
+
           !finalizers
           subroutine dltr1(this)
+               implicit none
                type(rnode1D), intent(inout)::this
 
                deallocate(this%array)
@@ -85,6 +151,7 @@ WRITE(*,*) ptr%pos  !ERROR (ptr isn't a dlla_node ptr)
           end subroutine
 
           subroutine dlti1(this)
+               implicit none
                type(inode1D), intent(inout)::this
 
                deallocate(this%array)
@@ -96,6 +163,7 @@ WRITE(*,*) ptr%pos  !ERROR (ptr isn't a dlla_node ptr)
           end subroutine
 
           subroutine dltl1(this)
+               implicit none
                type(lnode1D), intent(inout)::this
 
                deallocate(this%array)
@@ -107,6 +175,7 @@ WRITE(*,*) ptr%pos  !ERROR (ptr isn't a dlla_node ptr)
           end subroutine
 
           subroutine dltc1(this)
+               implicit none
                type(cnode1D), intent(inout)::this
 
                deallocate(this%array)
