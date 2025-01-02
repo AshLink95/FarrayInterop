@@ -30,8 +30,10 @@ extern "C" {	//Fortran 1D functions
 	void ccf1(int* size, int* pos);
 
 	//1D farray element setters
-	// bool sdf1(int* rank, double* member, int* pos);
+	bool sdf1(int* rank, double* member, int* pos);
 
 	//1D farray element getters
 	// double gdf1(int* rank, int* pos);
 }
+
+#include "farray.tpp"

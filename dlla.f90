@@ -2,56 +2,39 @@ module dlla
      use iso_C_binding
      implicit none
      type, abstract :: dlla_node
-          class(dlla_node), pointer::nxt => null(), prv => null()
           integer::pos = 0
-     contains
-          procedure, pass::gtpos
      end type
 
      !1D nodes
      type, extends(dlla_node) :: rnode1D
+          type(rnode1D), pointer::nxt => null(), prv => null()
           real(C_double), allocatable::array(:)
      contains
           final::dltr1
      end type
 
      type, extends(dlla_node) :: inode1D
+          type(inode1D), pointer::nxt => null(), prv => null()
           integer(c_int), allocatable::array(:)
      contains
           final::dlti1
      end type
 
      type, extends(dlla_node) :: lnode1D
+          type(lnode1D), pointer::nxt => null(), prv => null()
           logical(c_bool), allocatable::array(:)
      contains
           final::dltl1
      end type
 
      type, extends(dlla_node) :: cnode1D
+          type(cnode1D), pointer::nxt => null(), prv => null()
           character(c_char), allocatable::array(:)
      contains
           final::dltc1
      end type
 
      contains
-          function gtpos(this, pos) result(node)
-               implicit none
-               class(dlla_node), target, intent(inout)::this
-               integer, intent(in)::pos
-               class(dlla_node), pointer::node
-               integer::temp
-
-               node => this
-               temp = node%pos
-               do while (temp /= pos)
-                    node => node%nxt
-                    if (.not. associated(node)) then
-                         return
-                    endif
-                    temp = node%pos
-               enddo
-          end function
-
           !associators
           function rasc1(pt, size) result(pos)
                implicit none
@@ -135,6 +118,79 @@ module dlla
                     pt => nn
                endif
                pos = nn%pos
+          end function
+
+          !getters
+          function gtr1(pt, pos) result(node)
+               implicit none
+               type(rnode1d), pointer, intent(inout)::pt
+               integer(c_int), intent(in)::pos
+               type(rnode1d), pointer::node
+               integer(c_int)::temp
+
+               node => pt
+               temp = node%pos
+               do while (temp /= pos)
+                    node => node%nxt
+                    if (.not. associated(node)) then
+                         return
+                    endif
+                    temp = node%pos
+               enddo
+          end function
+
+          function gti1(pt, pos) result(node)
+               implicit none
+               type(inode1d), pointer, intent(inout)::pt
+               integer(c_int), intent(in)::pos
+               type(inode1d), pointer::node
+               integer(c_int)::temp
+
+               node => pt
+               temp = node%pos
+               do while (temp /= pos)
+                    node => node%nxt
+                    if (.not. associated(node)) then
+                         return
+                    endif
+                    temp = node%pos
+               enddo
+          end function
+
+          function gtl1(pt, pos) result(node)
+               implicit none
+               type(lnode1d), pointer, intent(inout)::pt
+               integer(c_int), intent(in)::pos
+               type(lnode1d), pointer::node
+               integer(c_int)::temp
+
+               node => pt
+               temp = node%pos
+               do while (temp /= pos)
+                    node => node%nxt
+                    if (.not. associated(node)) then
+                         return
+                    endif
+                    temp = node%pos
+               enddo
+          end function
+
+          function gtc1(pt, pos) result(node)
+               implicit none
+               type(cnode1d), pointer, intent(inout)::pt
+               integer(c_int), intent(in)::pos
+               type(cnode1d), pointer::node
+               integer(c_int)::temp
+
+               node => pt
+               temp = node%pos
+               do while (temp /= pos)
+                    node => node%nxt
+                    if (.not. associated(node)) then
+                         return
+                    endif
+                    temp = node%pos
+               enddo
           end function
 
           !finalizers

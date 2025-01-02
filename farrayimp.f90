@@ -44,4 +44,24 @@ module farrayimp1D
                pos = casc1(ptc, size)
                totnod = totnod + 1
           end subroutine
+
+          !element setters
+          function sdf1(rank, member, pos) result(res) bind(C)
+               implicit none
+               integer(c_int), intent(in)::rank
+               real(c_double), intent(in)::member
+               integer(c_int), intent(out)::pos
+               logical(c_bool)::res
+               type(rnode1D), pointer::node
+
+               node => gtr1(ptr, pos)
+               node%array(rank) = member
+               if (node%array(rank) == member) then
+                    res = .true.
+               else
+                    res = .false.
+               endif
+          end function
+
+          !element getters
 end module farrayimp1D
