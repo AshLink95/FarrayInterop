@@ -134,4 +134,6 @@ module farrayimp1D
                node => gtc1(ptc, pos)
                member = node%array(rank)
           end function
+
+          !farray deleters
 end module farrayimp1D

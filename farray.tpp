@@ -28,13 +28,48 @@ template <typename datp> Farray1D<datp>::Farray1D(int size){
 	this->pos = pos;
 }
 
-// 1D copy constructor
+template <typename datp> Farray1D<datp>::Farray1D(Farray1D &far){
+	const std::type_info &dp = typeid(datp);
+	int pos;
+	int i;
+	int size = far.length();
 
-template <typename datp> Farray1D<datp>::Farray1D(datp array[]){
+	if (dp == typeid(double)) {
+		cdf1(&size, &pos);
+		for (i=1;i<=size;i++){
+			double member = static_cast<double>(far.get(i));
+			sdf1(&i, &member, &pos);
+		}
+	} else if (dp == typeid(int)) {
+		cif1(&size, &pos);
+		for (i=1;i<=size;i++){
+			int member = static_cast<int>(far.get(i));
+			sif1(&i, &member, &pos);
+		}
+	} else if (dp == typeid(bool)) {
+		cbf1(&size, &pos);
+		for (i=1;i<=size;i++){
+			bool member = static_cast<bool>(far.get(i));
+			sbf1(&i, &member, &pos);
+		}
+	} else if (dp == typeid(char)) {
+		ccf1(&size, &pos);
+		for (i=1;i<=size;i++){
+			char member = static_cast<char>(far.get(i));
+			scf1(&i, &member, &pos);
+		}
+	} else {
+		throw std::invalid_argument("Only double, int, bool and char farrays are allowed");
+	}
+
+	this->size = size;
+	this->pos = pos;
+}
+
+template <typename datp> Farray1D<datp>::Farray1D(datp array[], int size){
 	const std::type_info &dp = typeid(datp);
 	int pos;
 	int i,j;
-	int size = sizeof(array)/sizeof(array[0]);
 
 	if (dp == typeid(double)) {
 		cdf1(&size, &pos);
@@ -42,6 +77,7 @@ template <typename datp> Farray1D<datp>::Farray1D(datp array[]){
 			j = i + 1;
 			double member = static_cast<double>(array[i]);
 			sdf1(&j, &member, &pos);
+
 		}
 	} else if (dp == typeid(int)) {
 		cif1(&size, &pos);
@@ -125,3 +161,8 @@ template <typename datp> datp Farray1D<datp>::get(int rank){
 	}
 	return res;
 }
+
+template <typename datp> int Farray1D<datp>::length(){
+	return this->size;
+}
+

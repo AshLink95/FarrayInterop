@@ -11,12 +11,13 @@ template <typename datp> class Farray1D : public Farray{
 
 	public:
 		Farray1D<datp>(int size);			//constructor with size
-		Farray1D<datp>(const Farray1D &far);	//copy constructor
-		Farray1D<datp>(datp array[]);			//array constructor
+		Farray1D<datp>(Farray1D &far);		//copy constructor
+		Farray1D<datp>(datp array[], int size);	//array constructor
 		//~Farray1D<datp>();				//finalizer
 
 		void set(int rank, datp member);		//change element at rank
 		datp get(int rank);					//return element at rank
+		int length();						//return farray size
 		//method to turn farray into array
 };
 
