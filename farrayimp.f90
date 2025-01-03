@@ -58,6 +58,38 @@ module farrayimp1D
                node%array(rank) = member
           end subroutine
 
+          subroutine sif1(rank, member, pos) bind(C)
+               implicit none
+               integer(c_int), intent(in)::rank, member, pos
+               type(inode1D), pointer::node
+
+               allocate(node)
+               node => gti1(pti, pos)
+               node%array(rank) = member
+          end subroutine
+
+          subroutine sbf1(rank, member, pos) bind(C)
+               implicit none
+               integer(c_int), intent(in)::rank, pos
+               logical(c_bool), intent(in)::member
+               type(lnode1D), pointer::node
+
+               allocate(node)
+               node => gtl1(ptl, pos)
+               node%array(rank) = member
+          end subroutine
+
+          subroutine scf1(rank, member, pos) bind(C)
+               implicit none
+               integer(c_int), intent(in)::rank, pos
+               character(c_char), intent(in)::member
+               type(cnode1D), pointer::node
+
+               allocate(node)
+               node => gtc1(ptc, pos)
+               node%array(rank) = member
+          end subroutine
+
           !farray element getters
           function gdf1(rank, pos) result(member) bind(C)
                implicit none
@@ -67,6 +99,39 @@ module farrayimp1D
 
                allocate(node)
                node => gtr1(ptr, pos)
+               member = node%array(rank)
+          end function
+
+          function gif1(rank, pos) result(member) bind(C)
+               implicit none
+               integer(c_int), intent(in)::rank, pos
+               integer(c_int)::member
+               type(inode1D), pointer::node
+
+               allocate(node)
+               node => gti1(pti, pos)
+               member = node%array(rank)
+          end function
+
+          function gbf1(rank, pos) result(member) bind(C)
+               implicit none
+               integer(c_int), intent(in)::rank, pos
+               logical(c_bool)::member
+               type(lnode1D), pointer::node
+
+               allocate(node)
+               node => gtl1(ptl, pos)
+               member = node%array(rank)
+          end function
+
+          function gcf1(rank, pos) result(member) bind(C)
+               implicit none
+               integer(c_int), intent(in)::rank, pos
+               character(c_char)::member
+               type(cnode1D), pointer::node
+
+               allocate(node)
+               node => gtc1(ptc, pos)
                member = node%array(rank)
           end function
 end module farrayimp1D
