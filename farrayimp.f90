@@ -9,6 +9,7 @@ module farrayimp1D
      type(cnode1D), pointer::ptc
      integer::totnod = 0
      contains
+          ! farray creators
           subroutine cdf1(size, pos) bind(C)
                implicit none
                integer(c_int), intent(in)::size
@@ -45,12 +46,11 @@ module farrayimp1D
                totnod = totnod + 1
           end subroutine
 
-          !element setters
+          ! farray element setters
           subroutine sdf1(rank, member, pos) bind(C)
                implicit none
-               integer(c_int), intent(in)::rank
+               integer(c_int), intent(in)::rank, pos
                real(c_double), intent(in)::member
-               integer(c_int), intent(out)::pos
                type(rnode1D), pointer::node
 
                allocate(node)
@@ -58,5 +58,15 @@ module farrayimp1D
                node%array(rank) = member
           end subroutine
 
-          !element getters
+          !farray element getters
+          function gdf1(rank, pos) result(member) bind(C)
+               implicit none
+               integer(C_int), intent(in)::rank, pos
+               real(c_double)::member
+               type(rnode1D), pointer::node
+
+               allocate(node)
+               node => gtr1(ptr, pos)
+               member = node%array(rank)
+          end function
 end module farrayimp1D

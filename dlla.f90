@@ -131,7 +131,7 @@ module dlla
                node => pt
                temp = node%pos
                do while (temp /= pos)
-                    node => node%nxt
+                    node => node%prv
                     if (.not. associated(node)) then
                          return
                     endif
@@ -149,7 +149,7 @@ module dlla
                node => pt
                temp = node%pos
                do while (temp /= pos)
-                    node => node%nxt
+                    node => node%prv
                     if (.not. associated(node)) then
                          return
                     endif
@@ -167,7 +167,7 @@ module dlla
                node => pt
                temp = node%pos
                do while (temp /= pos)
-                    node => node%nxt
+                    node => node%prv
                     if (.not. associated(node)) then
                          return
                     endif
@@ -185,7 +185,7 @@ module dlla
                node => pt
                temp = node%pos
                do while (temp /= pos)
-                    node => node%nxt
+                    node => node%prv
                     if (.not. associated(node)) then
                          return
                     endif

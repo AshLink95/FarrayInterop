@@ -1,4 +1,5 @@
 #include <typeinfo>
+#include <iostream>
 
 // definitions will be here
 Farray::Farray(){}
@@ -29,35 +30,38 @@ template <typename datp> Farray1D<datp>::Farray1D(int size){
 
 template <typename datp> void Farray1D<datp>::set(int rank, datp member){
 	const std::type_info &dp = typeid(datp);
+	int pos = this->pos;
 
 	//TODO: error handling rank (pass by val and non int) and out of bound
 	if (dp == typeid(double)) {
 		sdf1(&rank, &member, &pos); 
 	} else if (dp == typeid(int)) {
-		//result = sif1(&rank, &member, &pos); 
+		//sif1(&rank, &member, &pos); 
 	} else if (dp == typeid(bool)) {
-		//result = sbf1(&rank, &member, &pos); 
+		//sbf1(&rank, &member, &pos); 
 	} else if (dp == typeid(char)) {
-		//result = scf1(&rank, &member, &pos); 
+		//scf1(&rank, &member, &pos); 
 	} else {
 		//TODO: display some error msg
 	}
 }
 
 template <typename datp> datp Farray1D<datp>::get(int rank){
-	datp result;
+	datp res;
+	int pos = this->pos;
 	const std::type_info &dp = typeid(datp);
 
 	//TODO: error handling rank (pass by val and non int) and out of bound
 	if (dp == typeid(double)) {
-		//result = gdf1(&rank, &pos); 
+		res = gdf1(&rank, &pos); 
 	} else if (dp == typeid(int)) {
-		//result = gif1(&rank, &pos); 
+		//res = gif1(&rank, &pos); 
 	} else if (dp == typeid(bool)) {
-		//result = gbf1(&rank, &pos); 
+		//res = gbf1(&rank, &pos); 
 	} else if (dp == typeid(char)) {
-		//result = gcf1(&rank, &pos); 
+		//res = gcf1(&rank, &pos); 
 	} else {
 		//TODO: display some error msg
 	}
+	return res;
 }
