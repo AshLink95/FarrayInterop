@@ -27,12 +27,12 @@ template <typename datp> Farray1D<datp>::Farray1D(int size){
 
 // 1D copy constructor overload
 
-template <typename datp> bool Farray1D<datp>::set(int rank, datp member){
-	bool result;
+template <typename datp> void Farray1D<datp>::set(int rank, datp member){
 	const std::type_info &dp = typeid(datp);
 
+	//TODO: error handling rank (pass by val and non int) and out of bound
 	if (dp == typeid(double)) {
-		result = sdf1(&rank, &member, &pos); 
+		sdf1(&rank, &member, &pos); 
 	} else if (dp == typeid(int)) {
 		//result = sif1(&rank, &member, &pos); 
 	} else if (dp == typeid(bool)) {
@@ -44,20 +44,20 @@ template <typename datp> bool Farray1D<datp>::set(int rank, datp member){
 	}
 }
 
-//template <typename datp> datp Farray1D<datp>::get(int rank){
-//	datp result;
-//	const std::type_info &dp = typeid(datp);
-//
-//	//TODO: error handling rank (pass by val and non int)
-//	if (dp == typeid(double)) {
-//		//result = gdf1(&rank, &pos); 
-//	} else if (dp == typeid(int)) {
-//		//result = gif1(&rank, &pos); 
-//	} else if (dp == typeid(bool)) {
-//		//result = gbf1(&rank, &pos); 
-//	} else if (dp == typeid(char)) {
-//		//result = gcf1(&rank, &pos); 
-//	} else {
-//		//TODO: display some error msg
-//	}
-//}
+template <typename datp> datp Farray1D<datp>::get(int rank){
+	datp result;
+	const std::type_info &dp = typeid(datp);
+
+	//TODO: error handling rank (pass by val and non int) and out of bound
+	if (dp == typeid(double)) {
+		//result = gdf1(&rank, &pos); 
+	} else if (dp == typeid(int)) {
+		//result = gif1(&rank, &pos); 
+	} else if (dp == typeid(bool)) {
+		//result = gbf1(&rank, &pos); 
+	} else if (dp == typeid(char)) {
+		//result = gcf1(&rank, &pos); 
+	} else {
+		//TODO: display some error msg
+	}
+}

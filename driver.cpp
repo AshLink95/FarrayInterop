@@ -13,6 +13,9 @@ int main(){
 	std::cout << "3 down" << std::endl;
 	Farray1D<char> fcr(i);
 	std::cout << "4 down" << std::endl;
+	int ii{2};
+	double d{2.4};
+	fur.set(ii,d);
 	//Farray1D<int> fir(i);
 	//Farray1D<bool> fer(i);
 	//Farray1D<char> far(i);
