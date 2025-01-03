@@ -9,29 +9,21 @@ module dlla
      type, extends(dlla_node) :: rnode1D
           type(rnode1D), pointer::nxt => null(), prv => null()
           real(C_double), allocatable::array(:)
-     contains
-          final::dltr1
      end type
 
      type, extends(dlla_node) :: inode1D
           type(inode1D), pointer::nxt => null(), prv => null()
           integer(c_int), allocatable::array(:)
-     contains
-          final::dlti1
      end type
 
      type, extends(dlla_node) :: lnode1D
           type(lnode1D), pointer::nxt => null(), prv => null()
           logical(c_bool), allocatable::array(:)
-     contains
-          final::dltl1
      end type
 
      type, extends(dlla_node) :: cnode1D
           type(cnode1D), pointer::nxt => null(), prv => null()
           character(c_char), allocatable::array(:)
-     contains
-          final::dltc1
      end type
 
      contains
@@ -192,53 +184,4 @@ module dlla
                     temp = node%pos
                enddo
           end function
-
-          !finalizers
-          subroutine dltr1(this)
-               implicit none
-               type(rnode1D), intent(inout)::this
-
-               deallocate(this%array)
-               this%prv%nxt => this%nxt
-               this%nxt%prv => this%prv
-               this%nxt => null()
-               this%prv => null()
-               nullify(this%nxt)
-          end subroutine
-
-          subroutine dlti1(this)
-               implicit none
-               type(inode1D), intent(inout)::this
-
-               deallocate(this%array)
-               this%prv%nxt => this%nxt
-               this%nxt%prv => this%prv
-               this%nxt => null()
-               this%prv => null()
-               nullify(this%nxt)
-          end subroutine
-
-          subroutine dltl1(this)
-               implicit none
-               type(lnode1D), intent(inout)::this
-
-               deallocate(this%array)
-               this%prv%nxt => this%nxt
-               this%nxt%prv => this%prv
-               this%nxt => null()
-               this%prv => null()
-               nullify(this%nxt)
-          end subroutine
-
-          subroutine dltc1(this)
-               implicit none
-               type(cnode1D), intent(inout)::this
-
-               deallocate(this%array)
-               this%prv%nxt => this%nxt
-               this%nxt%prv => this%prv
-               this%nxt => null()
-               this%prv => null()
-               nullify(this%nxt)
-          end subroutine
 end module

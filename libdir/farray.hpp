@@ -1,7 +1,6 @@
 class Farray{
 	protected:
 		int pos;						//global linked list position
-
 		Farray();						//default constructor
 };
 
@@ -13,15 +12,16 @@ template <typename datp> class Farray1D : public Farray{
 		Farray1D<datp>(int size);			//constructor with size
 		Farray1D<datp>(Farray1D &far);		//copy constructor
 		Farray1D<datp>(datp array[], int size);	//array constructor
-		//~Farray1D<datp>();				//finalizer
 
 		void set(int rank, datp member);		//change element at rank
 		datp get(int rank);					//return element at rank
 		int length();						//return farray size
-		//method to turn farray into array
+		datp* tocpp();						//convert farray to array
+		//TODO: slicing method
+		//TODO: resizeing method
 };
 
-//separate reshape functions (takes 1D returns nD)
+//TODO: separate reshape functions (takes 1D returns nD)
 
 extern "C" {	//Fortran 1D functions
 	//1D farray creation

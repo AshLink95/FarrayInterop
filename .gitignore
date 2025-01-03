@@ -1,0 +1,13 @@
+#files created by the makefile
+build/dlla.o
+build/farrayimp.o
+source/farrayimp1d.mod
+source/dlla.mod
+libdir/libfarray.a
+
+#driver program
+driva.cpp
+driva.exe
+
+#owner's personal notes
+ideadlla.txt

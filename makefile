@@ -1,23 +1,29 @@
+# Flag to include when using this library
+LIB = -L $(LIBDIR) -I $(LIBDIR) -lfarray -lgfortran
+
 # Compilers
 CXX = g++
 CXXF = -w
 FC = gfortran
-FCF = -w #-J $(BUILD) -I $(BUILD)
-ITRF = -lgfortran
+FCF = -w -J$(SRC) -I$(SRC)
 
 # Directories
-FINAL = ./
+LIBDIR = libdir/
 BUILD = build/
-SRC = ./
+SRC = source/
 
-# C++ and Fortran interoperability using nD arrays template
-$(FINAL)driver: $(BUILD)driver.o $(BUILD)farrayimp.o $(BUILD)dlla.o
-	$(CXX) $(CXXF) -o $(FINAL)driver $(BUILD)driver.o $(BUILD)farrayimp.o $(BUILD)dlla.o $(ITRF)
-$(BUILD)driver.o: $(SRC)driver.cpp
-	$(CXX) $(CXXF) -o $(BUILD)driver.o -c $(srC)driver.cpp
-$(BUILD)farrayimp.o: $(SRC)farrayimp.f90 $(BUILD)dlla.mod
+# cleanup (del for windows and rm for linux)
+CLNPCMD = del
+clean: $(LIBDIR)libfarray.a
+	$(CLNPCMD) source\dlla.mod
+	$(CLNPCMD) source\farrayimp1d.mod
+	$(CLNPCMD) build\dlla.o
+	$(CLNPCMD) build\farrayimp.o
+
+# library creation
+$(LIBDIR)libfarray.a: $(BUILD)farrayimp.o $(BUILD)dlla.o
+	ar rcs $(LIBDIR)libfarray.a $(BUILD)farrayimp.o $(BUILD)dlla.o
+$(BUILD)farrayimp.o: $(SRC)farrayimp.f90 $(SRC)dlla.mod
 	$(FC) $(FCF) -o $(BUILD)farrayimp.o -c $(SRC)farrayimp.f90
-$(BUILD)dlla.o $(BUILD)dlla.mod: $(SRC)dlla.f90
+$(BUILD)dlla.o $(SRC)dlla.mod: $(SRC)dlla.f90
 	$(FC) $(FCF) -o $(BUILD)dlla.o -c $(SRC)dlla.f90
-
-#TODO: check how to access fortran modules in other directories (change dir with -J dir)

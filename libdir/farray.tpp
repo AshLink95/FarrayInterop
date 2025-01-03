@@ -69,7 +69,13 @@ template <typename datp> Farray1D<datp>::Farray1D(Farray1D &far){
 template <typename datp> Farray1D<datp>::Farray1D(datp array[], int size){
 	const std::type_info &dp = typeid(datp);
 	int pos;
-	int i,j;
+	int i, j;
+
+	if (size > this->size){
+		throw std::out_of_range("Array index out of range");
+	} else if (size <= 0){
+		throw std::out_of_range("Invalid slice size");
+	}
 
 	if (dp == typeid(double)) {
 		cdf1(&size, &pos);
@@ -77,7 +83,6 @@ template <typename datp> Farray1D<datp>::Farray1D(datp array[], int size){
 			j = i + 1;
 			double member = static_cast<double>(array[i]);
 			sdf1(&j, &member, &pos);
-
 		}
 	} else if (dp == typeid(int)) {
 		cif1(&size, &pos);
@@ -131,8 +136,6 @@ template <typename datp> void Farray1D<datp>::set(int rank, datp member){
 	} else if (dp == typeid(char)) {
 		char tember = static_cast<char>(member);
 		scf1(&tank, &tember, &pos); 
-	} else {
-		throw std::invalid_argument("Only double, int, bool and char farrays are allowed");
 	}
 }
 
@@ -156,8 +159,6 @@ template <typename datp> datp Farray1D<datp>::get(int rank){
 		res = gbf1(&tank, &pos);
 	} else if (dp == typeid(char)) {
 		res = gcf1(&tank, &pos);
-	} else {
-		throw std::invalid_argument("Only double, int, bool and char farrays are allowed");
 	}
 	return res;
 }
@@ -166,3 +167,36 @@ template <typename datp> int Farray1D<datp>::length(){
 	return this->size;
 }
 
+template <typename datp> datp* Farray1D<datp>::tocpp(){
+	const std::type_info &dp = typeid(datp);
+	datp* arrptr = new datp[this->size];
+	int i, j;
+	int pos = this->pos;
+
+	if (dp == typeid(double)) {
+		for (i=1;i<=size;i++){
+			j = i - 1;
+			double member = static_cast<double>(this->get(i));
+			arrptr[j] = member;
+		}
+	} else if (dp == typeid(int)) {
+		for (i=1;i<=size;i++){
+			j = i - 1;
+			int member = static_cast<int>(this->get(i));
+			arrptr[j] = member;
+		}
+	} else if (dp == typeid(bool)) {
+		for (i=1;i<=size;i++){
+			j = i - 1;
+			bool member = static_cast<bool>(this->get(i));
+			arrptr[j] = member;
+		}
+	} else if (dp == typeid(char)) {
+		for (i=1;i<=size;i++){
+			j = i - 1;
+			char member = static_cast<char>(this->get(i));
+			arrptr[j] = member;
+		}
+	}
+	return arrptr;
+}
