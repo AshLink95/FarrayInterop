@@ -1,4 +1,4 @@
-FarrayInterop is a C++ library that provides a way to use Fortran arrays in C++.
+Farray is a C++ library that provides a way to use Fortran arrays in C++, allowing for seamless Interoperability between these languages. Hence the name FarrayInterop.
 
 # Why?
 Fortran is blazing fast in all things scientific computation, especially when it comes to array operations, faster than C++, C, Zig and even Julia. On top of this, a lot of scientific computing libraries are built and optimized in Fortran.
@@ -6,7 +6,7 @@ Fortran is blazing fast in all things scientific computation, especially when it
 As for C++, it's C++.
 
 # How is it implemented?
-This library is really just Fortran dynamic arrays in the form of C++ dynamic classes, each of which follow the convention `FarraynD` which is indicative of the dimensionality of the farray. Each of these classes allow 4 types which are `double`, `int`, `bool` and `char`.
+This library is really just Fortran dynamic arrays in the form of C++ dynamic classes, each of which follow the convention `FarraynD` which is indicative of the dimensionality of the farray. Each of these classes allow 4 types which are `float`, `double`, `int`, `bool` and `char`.
 
 The Fortran dynamic arrays are each part of a node in a doubly linked list of arrays, implemented in a minimalistic and efficient way:
 - Minimalistic because there isn't a defined linked list structure. Instead, the nodes are managed by a single global pointer for each data type in the dlla module.

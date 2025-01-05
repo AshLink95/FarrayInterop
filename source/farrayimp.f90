@@ -3,20 +3,27 @@ module farrayimp1D
      use dlla
      implicit none
 
+     type(fnode1D), pointer::ptf
      type(rnode1D), pointer::ptr
      type(inode1D), pointer::pti
      type(lnode1D), pointer::ptl
      type(cnode1D), pointer::ptc
-     integer::totnod = 0
      contains
           ! farray creators
+          subroutine cff1(size, pos) bind(C)
+               implicit none
+               integer(c_int), intent(in)::size
+               integer(c_int), intent(out)::pos
+
+               pos = fasc1(ptf, size)
+          end subroutine
+
           subroutine cdf1(size, pos) bind(C)
                implicit none
                integer(c_int), intent(in)::size
                integer(c_int), intent(out)::pos
 
                pos = rasc1(ptr, size)
-               totnod = totnod + 1
           end subroutine
 
           subroutine cif1(size, pos) bind(C)
@@ -25,7 +32,6 @@ module farrayimp1D
                integer(c_int), intent(out)::pos
 
                pos = iasc1(pti, size)
-               totnod = totnod + 1
           end subroutine
 
           subroutine cbf1(size, pos) bind(C)
@@ -34,7 +40,6 @@ module farrayimp1D
                integer(c_int), intent(out)::pos
 
                pos = lasc1(ptl, size)
-               totnod = totnod + 1
           end subroutine
 
           subroutine ccf1(size, pos) bind(C)
@@ -43,10 +48,20 @@ module farrayimp1D
                integer(c_int), intent(out)::pos
 
                pos = casc1(ptc, size)
-               totnod = totnod + 1
           end subroutine
 
           ! farray element setters
+          subroutine sff1(rank, member, pos) bind(C)
+               implicit none
+               integer(c_int), intent(in)::rank, pos
+               real(c_float), intent(in)::member
+               type(fnode1D), pointer::node
+
+               allocate(node)
+               node => gtf1(ptf, pos)
+               node%array(rank) = member
+          end subroutine
+
           subroutine sdf1(rank, member, pos) bind(C)
                implicit none
                integer(c_int), intent(in)::rank, pos
@@ -91,6 +106,17 @@ module farrayimp1D
           end subroutine
 
           !farray element getters
+          function gff1(rank, pos) result(member) bind(C)
+               implicit none
+               integer(C_int), intent(in)::rank, pos
+               real(c_float)::member
+               type(fnode1D), pointer::node
+
+               allocate(node)
+               node => gtf1(ptf, pos)
+               member = node%array(rank)
+          end function
+
           function gdf1(rank, pos) result(member) bind(C)
                implicit none
                integer(C_int), intent(in)::rank, pos

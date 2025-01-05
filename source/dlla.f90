@@ -6,6 +6,11 @@ module dlla
      end type
 
      !1D nodes
+     type, extends(dlla_node) :: fnode1D
+          type(fnode1D), pointer::nxt => null(), prv => null()
+          real(c_float), allocatable::array(:)
+     end type
+
      type, extends(dlla_node) :: rnode1D
           type(rnode1D), pointer::nxt => null(), prv => null()
           real(C_double), allocatable::array(:)
@@ -28,6 +33,27 @@ module dlla
 
      contains
           !associators
+          function fasc1(pt, size) result(pos)
+               implicit none
+               type(fnode1D), pointer, intent(inout)::pt
+               integer(c_int), intent(in)::size
+               integer(c_int)::pos
+               type(fnode1D), pointer::nn
+
+               ALLOCATE(nn)
+               ALLOCATE(nn%array(size))
+               if (.not. ASSOCIATED(pt)) then
+                    pt => nn
+                    nn%pos = 1
+               else
+                    pt%nxt => nn
+                    nn%prv => pt
+                    nn%pos = pt%pos + 1
+                    pt => nn
+               endif
+               pos = nn%pos
+          end function
+
           function rasc1(pt, size) result(pos)
                implicit none
                type(rnode1D), pointer, intent(inout)::pt
@@ -113,6 +139,24 @@ module dlla
           end function
 
           !getters
+          function gtf1(pt, pos) result(node)
+               implicit none
+               type(fnode1d), pointer, intent(inout)::pt
+               integer(c_int), intent(in)::pos
+               type(fnode1d), pointer::node
+               integer(c_int)::temp
+
+               node => pt
+               temp = node%pos
+               do while (temp /= pos)
+                    node => node%prv
+                    if (.not. associated(node)) then
+                         return
+                    endif
+                    temp = node%pos
+               enddo
+          end function
+
           function gtr1(pt, pos) result(node)
                implicit none
                type(rnode1d), pointer, intent(inout)::pt

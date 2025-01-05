@@ -25,18 +25,21 @@ template <typename datp> class Farray1D : public Farray{
 
 extern "C" {	//Fortran 1D functions
 	//1D farray creation
+	void cff1(int* size, int* pos);
 	void cdf1(int* size, int* pos);
 	void cif1(int* size, int* pos);
 	void cbf1(int* size, int* pos);
 	void ccf1(int* size, int* pos);
 
 	//1D farray element setters
+	void sff1(int* rank, float* member, int* pos);
 	void sdf1(int* rank, double* member, int* pos);
 	void sif1(int* rank, int* member, int* pos);
 	void sbf1(int* rank, bool* member, int* pos);
 	void scf1(int* rank, char* member, int* pos);
 
 	//1D farray element getters
+	float gff1(int* rank, int* pos);
 	double gdf1(int* rank, int* pos);
 	int gif1(int* rank, int* pos);
 	bool gbf1(int* rank, int* pos);

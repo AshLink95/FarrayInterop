@@ -12,7 +12,9 @@ template <typename datp> Farray1D<datp>::Farray1D(int size){
 		throw std::invalid_argument("Invalid farray size");
 	}
 
-	if (dp == typeid(double)) {
+	if (dp == typeid(float)) {
+		cff1(&tize, &pos); 
+	} else if (dp == typeid(double)) {
 		cdf1(&tize, &pos); 
 	} else if (dp == typeid(int)) {
 		cif1(&tize, &pos); 
@@ -21,7 +23,7 @@ template <typename datp> Farray1D<datp>::Farray1D(int size){
 	} else if (dp == typeid(char)) {
 		ccf1(&tize, &pos); 
 	} else {
-		throw std::invalid_argument("Only double, int, bool and char farrays are allowed");
+		throw std::invalid_argument("Only float, double, int, bool and char farrays are allowed");
 	}
 
 	this->size = size;
@@ -34,7 +36,13 @@ template <typename datp> Farray1D<datp>::Farray1D(Farray1D &far){
 	int i;
 	int size = far.length();
 
-	if (dp == typeid(double)) {
+	if (dp == typeid(float)) {
+		cff1(&size, &pos);
+		for (i=1;i<=size;i++){
+			float member = static_cast<float>(far.get(i));
+			sff1(&i, &member, &pos);
+		}
+	} else if (dp == typeid(double)) {
 		cdf1(&size, &pos);
 		for (i=1;i<=size;i++){
 			double member = static_cast<double>(far.get(i));
@@ -59,7 +67,7 @@ template <typename datp> Farray1D<datp>::Farray1D(Farray1D &far){
 			scf1(&i, &member, &pos);
 		}
 	} else {
-		throw std::invalid_argument("Only double, int, bool and char farrays are allowed");
+		throw std::invalid_argument("Only float, double, int, bool and char farrays are allowed");
 	}
 
 	this->size = size;
@@ -71,13 +79,18 @@ template <typename datp> Farray1D<datp>::Farray1D(datp array[], int size){
 	int pos;
 	int i, j;
 
-	if (size > this->size){
-		throw std::out_of_range("Array index out of range");
-	} else if (size <= 0){
+	if (size <= 0){
 		throw std::out_of_range("Invalid slice size");
 	}
 
-	if (dp == typeid(double)) {
+	if (dp == typeid(float)) {
+		cff1(&size, &pos);
+		for (i=0;i<size;i++){
+			j = i + 1;
+			float member = static_cast<float>(array[i]);
+			sff1(&j, &member, &pos);
+		}
+	} else if (dp == typeid(double)) {
 		cdf1(&size, &pos);
 		for (i=0;i<size;i++){
 			j = i + 1;
@@ -106,7 +119,7 @@ template <typename datp> Farray1D<datp>::Farray1D(datp array[], int size){
 			scf1(&j, &member, &pos);
 		}
 	} else {
-		throw std::invalid_argument("Only double, int, bool and char farrays are allowed");
+		throw std::invalid_argument("Only float, double, int, bool and char farrays are allowed");
 	}
 
 	this->size = size;
@@ -124,7 +137,10 @@ template <typename datp> void Farray1D<datp>::set(int rank, datp member){
 		throw std::out_of_range("Index out of range. Farrays start at 1");
 	}
 
-	if (dp == typeid(double)) {
+	if (dp == typeid(float)) {
+		float tember = static_cast<float>(member);
+		sff1(&tank, &tember, &pos);
+	} else if (dp == typeid(double)) {
 		double tember = static_cast<double>(member);
 		sdf1(&tank, &tember, &pos);
 	} else if (dp == typeid(int)) {
@@ -151,7 +167,9 @@ template <typename datp> datp Farray1D<datp>::get(int rank){
 		throw std::out_of_range("Index out of range. Farrays start at 1");
 	}
 
-	if (dp == typeid(double)) {
+	if (dp == typeid(float)) {
+		res = gff1(&tank, &pos);
+	} else if (dp == typeid(double)) {
 		res = gdf1(&tank, &pos);
 	} else if (dp == typeid(int)) {
 		res = gif1(&tank, &pos);
@@ -173,7 +191,13 @@ template <typename datp> datp* Farray1D<datp>::tocpp(){
 	int i, j;
 	int pos = this->pos;
 
-	if (dp == typeid(double)) {
+	if (dp == typeid(float)) {
+		for (i=1;i<=size;i++){
+			j = i - 1;
+			float member = static_cast<float>(this->get(i));
+			arrptr[j] = member;
+		}
+	} else if (dp == typeid(double)) {
 		for (i=1;i<=size;i++){
 			j = i - 1;
 			double member = static_cast<double>(this->get(i));
