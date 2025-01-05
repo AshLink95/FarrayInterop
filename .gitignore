@@ -1,6 +1,6 @@
 #files created by the makefile
 build/dlla.o
-build/farrayimp.o
+build/farrayimp1D.o
 source/farrayimp1d.mod
 source/dlla.mod
 libdir/libfarray.a
