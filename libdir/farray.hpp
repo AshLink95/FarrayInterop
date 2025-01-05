@@ -1,29 +1,28 @@
-class Farray{
+class Farray{										//Parent
 	protected:
-		int pos;						//global linked list position
-		Farray();						//default constructor
+		int pos;		//global linked list position
+		Farray();		//default constructor
 };
 
-template <typename datp> class Farray1D : public Farray{
+template <typename datp> class Farray1D : public Farray{	//1D Child
 	private:
 		int size;
 
 	public:
-		Farray1D<datp>(int size);			//constructor with size
-		Farray1D<datp>(Farray1D &far);		//copy constructor
-		Farray1D<datp>(datp array[], int size);	//array constructor
+		Farray1D<datp>(int size);				//constructor with size
+		Farray1D<datp>(Farray1D &far);			//copy constructor
+		Farray1D<datp>(datp array[], int size);		//array constructor
 
-		void set(int rank, datp member);		//change element at rank
-		datp get(int rank);					//return element at rank
-		int length();						//return farray size
-		datp* tocpp();						//convert farray to array
-		//TODO: slicing method
-		//TODO: resizeing method
+		void set(int rank, datp member);			//changes element at rank
+		datp get(int rank);						//returns element at rank
+		int length();							//returns farray size
+		Farray1D<datp> slice(int start, int end);	//returns a slice
+		datp* tocpp();							//convert farray to array
 };
 
 //TODO: separate reshape functions (takes 1D returns nD)
 
-extern "C" {	//Fortran 1D functions
+extern "C" {	//Fortran functions
 	//1D farray creation
 	void cff1(int* size, int* pos);
 	void cdf1(int* size, int* pos);

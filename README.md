@@ -6,7 +6,7 @@ Fortran is blazing fast in all things scientific computation, especially when it
 As for C++, it's C++.
 
 # How is it implemented?
-This library is really just Fortran dynamic arrays in the form of C++ dynamic classes, each of which follow the convention `FarraynD` which is indicative of the dimensionality of the farray. Each of these classes allow 4 types which are `float`, `double`, `int`, `bool` and `char`.
+This library is really just Fortran dynamic arrays in the form of C++ dynamic classes, each of which follow the convention `FarraynD` with `n` being indicative of the dimensionality of the farray. Each of these classes allow 4 types which are `float`, `double`, `int`, `bool` and `char`.
 
 The Fortran dynamic arrays are each part of a node in a doubly linked list of arrays, implemented in a minimalistic and efficient way:
 - Minimalistic because there isn't a defined linked list structure. Instead, the nodes are managed by a single global pointer for each data type in the dlla module.
@@ -31,11 +31,11 @@ In your C++ file, have this header
 ```
 Or the relative pathname of the header file to mitigate the need for the `-I` flag when compiling, as you will see later, and allow your LSP to recognize the header.
 
-When compiling a file that makes use of this library, it's preferable to use g++ and include the flag in the following example:
+When compiling a file that makes use of this library, it's preferable to use g++ and include all the flags in the following example:
 ```Shell
-g++ -o exp exp.cpp -L path\to\library_dir -I path\to\header_dir -lfarray -lgfortran
+g++ exp.cpp -I path\to\header_dir -L path\to\library_dir -lfarray -lgfortran
 ```
-Rq: The flag you need to use is included in the makefile.
+Rq: The flags you need to use are included in the makefile.
 
 Note that adding the header file and its template in your system's C++ header path, which should be `CPLUS_INCLUDE_PATH` by default, mitigates the need for the `-I` flag and makes the header
 ```C++

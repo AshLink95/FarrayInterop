@@ -224,3 +224,21 @@ template <typename datp> datp* Farray1D<datp>::tocpp(){
 	}
 	return arrptr;
 }
+
+template <typename datp> Farray1D<datp> Farray1D<datp>::slice(int start, int end){
+	int size = end - start + 1;
+	int i,j;
+	datp* arrptr;
+
+	if (size <= 0 || size > this->size || start <= 0 || end <= 0){
+		throw std::out_of_range("Invalid slice size");
+	}
+	Farray1D<datp> farr(size);
+
+	arrptr = this->tocpp();
+	for(i=start;i<=end;i++){
+		j = i - start + 1;
+		farr.set(j,arrptr[i-1]);
+	}
+	return farr;
+}
