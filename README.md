@@ -29,6 +29,7 @@ In your C++ file, have this header
 ```C++
 #include "farray.hpp"
 ```
+Or the relative pathname of the header file to mitigate the need for the `-I` flag when compiling, as you will see later, and allow your LSP to recognize the header.
 
 When compiling a file that makes use of this library, it's preferable to use g++ and include the flag in the following example:
 ```Shell
