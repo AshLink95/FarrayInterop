@@ -6,13 +6,13 @@ Fortran is blazing fast in all things scientific computation, especially when it
 As for C++, it's C++.
 
 # How is it implemented?
-This library is really just Fortran dynamic arrays in the form of C++ dynamic classes, each of which follow the convention `FarraynD` with `n` being indicative of the dimensionality of the farray. Each of these classes allow 4 types which are `float`, `double`, `int`, `bool` and `char`.
+This library is really just Fortran allocatable arrays in the form of C++ dynamic classes, each of which follow the convention `FarraynD` with `n` being indicative of the dimensionality of the farray. Each of these classes allow 4 types which are `float`, `double`, `int`, `bool` and `char`.
 
-The Fortran dynamic arrays are each part of a node in a doubly linked list of arrays, implemented in a minimalistic and efficient way:
+The Fortran allocatable arrays are each part of a node in a doubly linked list of arrays, implemented in a minimalistic and efficient way:
 - Minimalistic because there isn't a defined linked list structure. Instead, the nodes are managed by a single global pointer for each data type in the dlla module.
 - Efficient because the fetching part of any operation involving the last defined farray has a time complexity of $O(1)$.
 
-The main feature of any farray class is that it's possible to transition between it and C++ dynamic arrays very easily while keeping the same size and elements. This allows the use of all array libraries in both C++ and Fortran.
+The main feature of any farray class is that it's possible to transition between it and C++ dynamically allocated arrays (pointers) very easily while keeping the same size and elements. This allows the use of all array libraries in both C++ and Fortran.
 
 The whole library is implemented in a way that's easy to modify the source code to include more useful methods using both Fortran and C++.
 
