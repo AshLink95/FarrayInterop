@@ -1,7 +1,8 @@
+#ifndef FARRAY1D_TPP
+#define FARRAY1D_TPP
+
 #include <typeinfo>
 #include <stdexcept>
-
-Farray::Farray(){}
 
 template <typename datp> Farray1D<datp>::Farray1D(int size){
 	const std::type_info &dp = typeid(datp);
@@ -185,6 +186,24 @@ template <typename datp> int Farray1D<datp>::length(){
 	return this->size;
 }
 
+template <typename datp> Farray1D<datp> Farray1D<datp>::slice(int start, int end){
+	int size = end - start + 1;
+	int i,j;
+	datp* arrptr;
+
+	if (size <= 0 || size > this->size || start <= 0 || end <= 0){
+		throw std::out_of_range("Invalid slice size");
+	}
+	Farray1D<datp> farr(size);
+
+	arrptr = this->tocpp();
+	for(i=start;i<=end;i++){
+		j = i - start + 1;
+		farr.set(j,arrptr[i-1]);
+	}
+	return farr;
+}
+
 template <typename datp> datp* Farray1D<datp>::tocpp(){
 	const std::type_info &dp = typeid(datp);
 	datp* arrptr = new datp[this->size];
@@ -225,20 +244,24 @@ template <typename datp> datp* Farray1D<datp>::tocpp(){
 	return arrptr;
 }
 
-template <typename datp> Farray1D<datp> Farray1D<datp>::slice(int start, int end){
-	int size = end - start + 1;
-	int i,j;
-	datp* arrptr;
+template <typename datp> std::ostream& operator<<(std::ostream& os, Farray1D<datp>& farr){
+	const std::type_info &dp = typeid(datp);
+	int i,size = farr.length();
 
-	if (size <= 0 || size > this->size || start <= 0 || end <= 0){
-		throw std::out_of_range("Invalid slice size");
+	if (dp == typeid(char)){
+		for (i=1;i<=size;i++){
+			os << farr.get(i);
+		}
+	} else{
+		for (i=1;i<=size;i++){
+			os << farr.get(i);
+			if (i <= size - 1) {
+				os << ", ";
+			}
+		}
 	}
-	Farray1D<datp> farr(size);
 
-	arrptr = this->tocpp();
-	for(i=start;i<=end;i++){
-		j = i - start + 1;
-		farr.set(j,arrptr[i-1]);
-	}
-	return farr;
+	return os;
 }
+
+#endif //FARRAY1D_TPP

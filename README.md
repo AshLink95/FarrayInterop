@@ -49,9 +49,9 @@ If you do these 2 things, you will only need the flags `-lfarray` to make use of
 # Extensibility
 The main feature of this library is its ease of extensibility which can be done in several ways if you put your mind into it but I would recommend the following approach for array operations:
 
-0. Create your own Fortran module of functions and subroutines if they're more complex than a simple array operation and use it in farrayimp.f90
+0. Create your own Fortran module of functions and subroutines if they're more complex than a simple array operation and use it in one of the farrayimp Fortran files (according to dimensionality)
 
-1. Define your functions or subroutines in farrayimp.f90 with `bind(C)` while making use of the doubly linked list of arrays through a node pointer like all methods defined there. Use them as a template.
+1. Define your functions or subroutines in a farrayimp file with `bind(C)` while making use of the doubly linked list of arrays through a node pointer like all methods defined there. Use them as a template.
 
 2. In the header file, declare the methods that make use of these previously mentioned functions in the respective farray class definition and declare the function you wrote in Fortran in an `extern "C"` block.
 

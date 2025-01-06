@@ -1,7 +1,10 @@
+#ifndef FARRAY_HPP
+#define FARRAY_HPP
+
 class Farray{										//Parent
 	protected:
 		int pos;		//global linked list position
-		Farray();		//default constructor
+		Farray(){}	//default constructor
 };
 
 template <typename datp> class Farray1D : public Farray{	//1D Child
@@ -20,7 +23,11 @@ template <typename datp> class Farray1D : public Farray{	//1D Child
 		datp* tocpp();							//convert farray to array
 };
 
-//TODO: separate reshape functions (takes 1D returns nD)
+// reshape functions (takes 1D returns nD)
+
+// display overloads
+#include <iostream>
+template <typename datp> std::ostream& operator<<(std::ostream& os, Farray1D<datp>& farr);
 
 extern "C" {	//Fortran functions
 	//1D farray creation
@@ -45,4 +52,6 @@ extern "C" {	//Fortran functions
 	char gcf1(int* rank, int* pos);
 }
 
-#include "farray.tpp"
+#include "farray1D.tpp"
+
+#endif //FARRAY_HPP
