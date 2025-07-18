@@ -16,10 +16,22 @@ The main feature of any farray class is that it's possible to transition between
 
 The whole library is implemented in a way that's easy to modify the source code to include more useful methods using both Fortran and C++.
 
+Lastly, This library follows the C++20 standard. This makes it so that users don't have to worry about warnings when using C++20.
+
 # Installation
 After cloning the repo, check the makefile if you want to modify the compilers, flags and directories. After that, in the repo's directory, in your terminal, simply type:
 ```Shell
-make
+make build
+```
+
+To test your new library, 
+```Shell
+make test
+```
+
+And, lastly, to cleanup intermediate files and test binaries,
+```Shell
+make clean
 ```
 
 # How to use?
@@ -33,7 +45,7 @@ Or the relative pathname of the header file to mitigate the need for the `-I` fl
 
 When compiling a file that makes use of this library, it's preferable to use g++ and include all the flags in the following example:
 ```Shell
-g++ exp.cpp -I path\to\header_dir -L path\to\library_dir -lfarray -lgfortran
+g++ -std=c++20 exp.cpp -I path/to/header_dir -L path/to/library_dir -lfarray -lgfortran
 ```
 Rq: The flags you need to use are included in the makefile.
 

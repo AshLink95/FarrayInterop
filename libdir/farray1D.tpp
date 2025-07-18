@@ -1,5 +1,4 @@
-#ifndef FARRAY1D_TPP
-#define FARRAY1D_TPP
+# pragma once
 
 #include <typeinfo>
 #include <stdexcept>
@@ -263,5 +262,3 @@ template <typename datp> std::ostream& operator<<(std::ostream& os, Farray1D<dat
 
 	return os;
 }
-
-#endif //FARRAY1D_TPP

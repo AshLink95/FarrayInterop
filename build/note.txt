@@ -1,1 +1,0 @@
-Do not delete this directory without modifying the makefile.

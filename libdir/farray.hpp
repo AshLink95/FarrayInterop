@@ -1,26 +1,35 @@
-#ifndef FARRAY_HPP
-#define FARRAY_HPP
+#ifndef FARRAY1D_HPP
+#define FARRAY1D_HPP
 
-class Farray{										//Parent
-	protected:
-		int pos;		//global linked list position
-		Farray(){}	//default constructor
+class Farray{ //Parent
+    protected:
+        int pos;	//global linked list position
+        Farray(){}	//default constructor
 };
 
-template <typename datp> class Farray1D : public Farray{	//1D Child
+template <typename datp> class Farray1D : public Farray { //1D Child
 	private:
-		int size;
+        /// size of array
+        int size;
 
 	public:
-		Farray1D<datp>(int size);				//constructor with size
-		Farray1D<datp>(Farray1D &far);			//copy constructor
-		Farray1D<datp>(datp array[], int size);		//array constructor
+        /// constructor with size
+        Farray1D(int size);
+        /// copy constructor
+        Farray1D(Farray1D &far);
+        /// array constructor
+        Farray1D(datp array[], int size);
 
-		void set(int rank, datp member);			//changes element at rank
-		datp get(int rank);						//returns element at rank
-		int length();							//returns farray size
-		Farray1D<datp> slice(int start, int end);	//returns a slice
-		datp* tocpp();							//convert farray to array
+        /// changes element at rank
+        void set(int rank, datp member);
+        /// returns element at rank
+        datp get(int rank);
+        /// returns farray size
+        int length();
+        /// returns a slice
+        Farray1D<datp> slice(int start, int end);
+        /// convert farray to array
+        datp* tocpp();
 };
 
 // reshape functions (takes 1D returns nD)
@@ -29,7 +38,7 @@ template <typename datp> class Farray1D : public Farray{	//1D Child
 #include <iostream>
 template <typename datp> std::ostream& operator<<(std::ostream& os, Farray1D<datp>& farr);
 
-extern "C" {	//Fortran functions
+extern "C" { //Fortran functions
 	//1D farray creation
 	void cff1(int* size, int* pos);
 	void cdf1(int* size, int* pos);
@@ -54,4 +63,4 @@ extern "C" {	//Fortran functions
 
 #include "farray1D.tpp"
 
-#endif //FARRAY_HPP
+#endif //FARRAYD_HPP
