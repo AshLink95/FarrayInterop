@@ -5,6 +5,7 @@ src/farrayimp1d.mod
 src/dlla.mod
 libdir/libfarray.a
 build/
+elderlyMake/
 
 #driver program
 driva.cpp

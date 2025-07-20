@@ -19,19 +19,23 @@ The whole library is implemented in a way that's easy to modify the source code 
 Lastly, This library follows the C++20 standard. This makes it so that users don't have to worry about warnings when using C++20.
 
 # Installation
-After cloning the repo, check the makefile if you want to modify the compilers, flags and directories. After that, in the repo's directory, in your terminal, simply type:
+After cloning the repo, check the `CMakeLists.txt` if you want to modify some details. Under normal circumstances, you wouldn't. After that, in the repo's directory, in your terminal, try:
 ```Shell
-make build
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -G Ninja -S . -B build
+cmake --build build -j
 ```
+These flags are simply optimal. Just make sure to install ninja. Just make sure you have [ninja](https://github.com/ninja-build/ninja).  
+Once done, you'll find a nice static library called `libfarray.a`, ready to roll in the `libdir` directory.
 
 To test your new library, 
 ```Shell
-make test
+cd build
+ctest
 ```
 
-And, lastly, to cleanup intermediate files and test binaries,
+And, lastly, to cleanup intermediate files and test binaries, which is the whole `build` directory,
 ```Shell
-make clean
+cmake --build build --target purge
 ```
 
 # How to use?
@@ -47,7 +51,6 @@ When compiling a file that makes use of this library, it's preferable to use g++
 ```Shell
 g++ -std=c++20 exp.cpp -I path/to/header_dir -L path/to/library_dir -lfarray -lgfortran
 ```
-Rq: The flags you need to use are included in the makefile.
 
 Note that adding the header file and its template in your system's C++ header path, which should be `CPLUS_INCLUDE_PATH` by default, mitigates the need for the `-I` flag and makes the header
 ```C++

@@ -1,5 +1,5 @@
-#include "../libdir/farray.hpp"
-# include "gtest/gtest.h"
+#include "farray.hpp"
+#include "gtest/gtest.h"
 
 TEST(FarrayTest, Construction) {
     Farray1D<float> farr_f = Farray1D<float>(24);
