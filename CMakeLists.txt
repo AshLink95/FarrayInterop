@@ -13,6 +13,7 @@ add_library(farray STATIC ${CMAKE_SOURCE_DIR}/src/dlla.f90 ${CMAKE_SOURCE_DIR}/s
 include_directories(${CMAKE_SOURCE_DIR}/libdir)
 target_include_directories(farray PUBLIC ${CMAKE_SOURCE_DIR}/libdir)
 target_link_libraries(farray PUBLIC gfortran)
+target_compile_options(farray PUBLIC -O2 -funroll-loops -fopenmp-simd -ftree-vectorize)
 set_target_properties(farray PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/libdir
 )
