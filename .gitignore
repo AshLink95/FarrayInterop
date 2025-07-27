@@ -5,12 +5,15 @@ src/farrayimp1d.mod
 src/dlla.mod
 libdir/libfarray.a
 build/
-elderlyMake/
 
 #driver program
 driva.cpp
 driva.exe
 
-#owner's personal notes
+#owner's personal stuff
 ideadlla.txt
 .clangd
+elderlyMake/
+
+# AUR integration
+AUR:farrayinterop-git/

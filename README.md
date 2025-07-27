@@ -38,8 +38,14 @@ And, lastly, to cleanup intermediate files and test binaries, which is the whole
 cmake --build build --target purge
 ```
 
+## Arch Linux
+FarrayInterop is available to download from the AUR through
+```bash
+yay farrayinterop-git
+```
+
 # How to use?
-Technically, this is a header-only library which makes it super easy to use without migrating a bunch of files around.
+Technically, this is a precompiled static library which makes it super easy to use without migrating a bunch of files around.
 
 In your C++ file, have this header
 ```C++
